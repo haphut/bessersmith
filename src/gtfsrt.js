@@ -30,7 +30,7 @@ const buildFeed = cache => {
       gtfsRealtimeVersion: "1.0",
       timestamp: moment().unix()
     },
-    entity: tripUpdates
+    entity: _.filter(tripUpdates)
   };
 };
 
