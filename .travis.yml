@@ -1,5 +1,10 @@
 sudo: required
 
+# Used for semver and parsing package.json
+language: node_js
+node_js:
+  - "node"
+
 services:
   - docker
 
@@ -11,7 +16,6 @@ env:
     - LOWERCASE_REPO_SLUG="${TRAVIS_REPO_SLUG,,}"
     - DOCKER_LOCAL="${LOWERCASE_REPO_SLUG}:${TRAVIS_COMMIT}"
     - DOCKER_MASTER="${LOWERCASE_REPO_SLUG}:latest"
-    - DOCKER_GIT_TAG="${LOWERCASE_REPO_SLUG}:${TRAVIS_TAG}"
 
 before_install:
   - docker --version
@@ -19,6 +23,23 @@ before_install:
   - docker build --tag "${DOCKER_LOCAL}" .
 
 script:
+  - if [ -z ${TRAVIS_TAG+foo} ]; then
+      PACKAGE_VERSION="$(node -p "require('./package.json').version")";
+      if [ "${TRAVIS_TAG}" != "${PACKAGE_VERSION}" ]; then
+        echo "TRAVIS_TAG ${TRAVIS_TAG} differs from \"version\" ${PACKAGE_VERSION} in package.json" 1>&2;
+        exit 1;
+      fi
+      semver "${TRAVIS_TAG}" > /dev/null;
+      if [ "$?" -ne 0 ]; then
+        echo "TRAVIS_TAG ${TRAVIS_TAG} does not follow semver" 1>&2;
+        exit 1;
+      fi
+    else
+      # FIXME: Remove when tested.
+      echo "TRAVIS_TAG was unset";
+      echo 'Value of $([ -z ${TRAVIS_TAG+foo} ]):'"$([ -z ${TRAVIS_TAG+foo} ])";
+      echo 'Value of $([ -z ${TRAVIS_TAG} ]):'"$([ -z ${TRAVIS_TAG} ])";
+    fi
   - docker run --rm "${DOCKER_LOCAL}" yarn eslint
   - docker run --rm "${DOCKER_LOCAL}" yarn test
 
@@ -28,7 +49,7 @@ deploy:
     on:
       branch: master
   - provider: script
-    script: sh ./.travis/docker_login_tag_push "${DOCKER_LOCAL}" "${DOCKER_GIT_TAG}"
+    script: sh ./.travis/docker_login_tag_semver_push "${DOCKER_LOCAL}" "${LOWERCASE_REPO_SLUG}" "${TRAVIS_TAG}"
     on:
       tags: true
       all_branches: true
