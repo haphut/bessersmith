@@ -25,20 +25,21 @@ before_install:
 
 script:
   - if [ -z ${TRAVIS_TAG+foo} ]; then
-      package_version="$(node -p "require('./package.json').version")"
-      if [ "${TRAVIS_TAG}" != "${package_version}" ]; then
-        echo "TRAVIS_TAG ${TRAVIS_TAG} differs from \"version\" ${package_version} in package.json" 1>&2
-        exit 1
+      PACKAGE_VERSION="$(node -p "require('./package.json').version")";
+      if [ "${TRAVIS_TAG}" != "${PACKAGE_VERSION}" ]; then
+        echo "TRAVIS_TAG ${TRAVIS_TAG} differs from \"version\" ${PACKAGE_VERSION} in package.json" 1>&2;
+        exit 1;
       fi
-      semver "${TRAVIS_TAG}" > /dev/null
+      semver "${TRAVIS_TAG}" > /dev/null;
       if [ "$?" -ne 0 ]; then
-        echo "TRAVIS_TAG ${TRAVIS_TAG} does not follow semver" 1>&2
-        exit 1
+        echo "TRAVIS_TAG ${TRAVIS_TAG} does not follow semver" 1>&2;
+        exit 1;
       fi
     else
-      echo "TRAVIS_TAG was unset"
-      echo 'Value of $([ -z ${TRAVIS_TAG+foo} ]):'"$([ -z ${TRAVIS_TAG+foo} ])"
-      echo 'Value of $([ -z ${TRAVIS_TAG} ]):'"$([ -z ${TRAVIS_TAG} ])"
+      # FIXME: Remove when tested.
+      echo "TRAVIS_TAG was unset";
+      echo 'Value of $([ -z ${TRAVIS_TAG+foo} ]):'"$([ -z ${TRAVIS_TAG+foo} ])";
+      echo 'Value of $([ -z ${TRAVIS_TAG} ]):'"$([ -z ${TRAVIS_TAG} ])";
     fi
   - docker run --rm "${DOCKER_LOCAL}" yarn eslint
   - docker run --rm "${DOCKER_LOCAL}" yarn test
