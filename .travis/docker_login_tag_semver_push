@@ -1,0 +1,35 @@
+#!/bin/sh
+
+set -u
+
+[ "$#" -ne 3 ] && {
+  echo "Usage: $(basename "$0") SOURCE_IMAGE[:TAG] TARGET_IMAGE_WITHOUT_TAG TRAVIS_TAG" 1>&2
+  exit 1
+}
+
+SOURCE_IMAGE_TAG="$1"
+TARGET_IMAGE_WITHOUT_TAG="$2"
+TRAVIS_TAG="$3"
+
+SEMVER_FULL="$(semver "${TRAVIS_TAG}")"
+if [ "$?" -ne 0 ]; then
+  echo "TRAVIS_TAG ${TRAVIS_TAG} does not follow semver" 1>&2
+  exit 1
+fi
+
+# semver allows no whitespace. I assume Docker image name does not either.
+TARGETS="${TARGET_IMAGE_WITHOUT_TAG}:${SEMVER_FULL}"
+
+IS_PRE_RELEASE="$(if [ $(echo "${SEMVER_FULL}" | grep -F -c '-') -gt 0 ]; then
+                    echo 'true'
+                  else
+                    echo 'false'
+                  fi)"
+if [ "${IS_PRE_RELEASE}" != true ]; then
+  SEMVER_MINOR="$(echo "${SEMVER_FULL}" | sed 's/\.[[:digit:]]*$//')"
+  SEMVER_MAJOR="$(echo "${SEMVER_FULL}" | sed 's/\..*//')"
+  TARGETS+=" ${TARGET_IMAGE_WITHOUT_TAG}:${SEMVER_MINOR}"
+  TARGETS+=" ${TARGET_IMAGE_WITHOUT_TAG}:${SEMVER_MAJOR}"
+fi
+
+./docker_login_tag_push "${SOURCE_IMAGE_TAG}" ${TARGETS}
