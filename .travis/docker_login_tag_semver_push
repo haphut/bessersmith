@@ -20,8 +20,8 @@ IS_PRE_RELEASE="$(if [ $(echo "${TRAVIS_TAG}" | grep -F -c '-') -gt 0 ]; then
                     echo 'false'
                   fi)"
 if [ "${IS_PRE_RELEASE}" != true ]; then
-  SEMVER_MINOR="$(echo "${TRAVIS_TAG}" | cut -d . -f 1-2)"
-  SEMVER_MAJOR="$(echo "${TRAVIS_TAG}" | cut -d . -f 1)"
+  SEMVER_MINOR="$(echo "${TRAVIS_TAG}" | tr -C -d '[:digit:].' | cut -d . -f 1-2)"
+  SEMVER_MAJOR="$(echo "${TRAVIS_TAG}" | tr -C -d '[:digit:].' | cut -d . -f 1)"
   TARGETS+=" ${TARGET_IMAGE_WITHOUT_TAG}:${SEMVER_MINOR}"
   TARGETS+=" ${TARGET_IMAGE_WITHOUT_TAG}:${SEMVER_MAJOR}"
 fi
