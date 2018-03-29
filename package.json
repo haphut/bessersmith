@@ -1,6 +1,6 @@
 {
   "name": "bessersmith",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Create MQTT GTFS Realtime trip updates from custom MQTT HSL MONO JSON messages",
   "main": "index.js",
   "repository": "https://github.com/hsldevcom/bessersmith",
