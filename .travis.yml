@@ -36,4 +36,3 @@ deploy:
     script: sh ./.travis/docker_login_tag_semver_push "${DOCKER_LOCAL}" "${LOWERCASE_REPO_SLUG}" "${TRAVIS_TAG}"
     on:
       tags: true
-      all_branches: true
