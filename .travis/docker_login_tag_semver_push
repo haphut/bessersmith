@@ -11,7 +11,7 @@ SOURCE_IMAGE_TAG="$1"
 TARGET_IMAGE_WITHOUT_TAG="$2"
 TAG_FROM_TRAVIS="$3"
 
-PUSH="$(pwd)/docker_login_tag_push"
+PUSH="./.travis/docker_login_tag_push"
 
 SEMVER_FULL="$(echo "${TAG_FROM_TRAVIS}" | sed -e 's/^[^0-9]*//')"
 # semver allows no whitespace. I assume Docker image name does not either.
