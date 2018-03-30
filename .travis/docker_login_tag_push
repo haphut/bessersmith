@@ -2,7 +2,7 @@
 
 set -u
 
-[ "$#" -ne 2 ] && {
+[ "$#" -lt 2 ] && {
   echo "Usage: $(basename "$0") SOURCE_IMAGE[:TAG] TARGET_IMAGE[:TAG]..." 1>&2
   exit 1
 }
