@@ -21,7 +21,7 @@
     "js-yaml": "^3.12.0",
     "lodash": "^4.17.11",
     "memory-cache": "^0.2.0",
-    "moment": "^2.22.2",
+    "moment": "^2.23.0",
     "mqtt": "^2.18.8",
     "neodoc": "^2.0.2",
     "protobufjs": "^6.8.8"
