@@ -36,6 +36,6 @@
     "eslint-plugin-prettier": "^2.7.0",
     "lolex": "^2.7.5",
     "mocha": "^5.2.0",
-    "prettier": "^1.15.3"
+    "prettier": "^1.17.0"
   }
 }
