@@ -1,4 +1,5 @@
 # bessersmith [![Travis](https://img.shields.io/travis/HSLdevcom/bessersmith.svg)](https://travis-ci.org/HSLdevcom/bessersmith) [![GitHub package version](https://img.shields.io/github/package-json/v/HSLdevcom/bessersmith.svg)](https://github.com/HSLdevcom/bessersmith/releases)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhaphut%2Fbessersmith.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhaphut%2Fbessersmith?ref=badge_shield)
 
 Transform the custom MONO JSON feed (`mono/#` at `mqtt.hsl.fi`) into GTFS Realtime TripUpdates.
 
@@ -66,3 +67,7 @@ The list of environment variables used by bessersmith:
 - `MQTT_PUB_LOG_INTERVAL_IN_SECONDS`: The interval for logging the amount of sent MQTT packets over the publishing connection.
 - `CACHE_TTL_IN_SECONDS`: The time to live in seconds for any entry in the trip [cache](https://github.com/ptarjan/node-cache).
 - `PROTO_PATH`: The path to the GTFS Realtime protocol buffer schema file.
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fhaphut%2Fbessersmith.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fhaphut%2Fbessersmith?ref=badge_large)
