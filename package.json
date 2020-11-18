@@ -13,7 +13,9 @@
     "eslint-check": "eslint --print-config .eslintrc | eslint-config-prettier-check",
     "prettier": "prettier --write index.js \"src/**/*.js\" \"test/**/*.js\"",
     "start": "node index.js",
-    "test": "mocha"
+    "test": "mocha",
+    "snyk-protect": "snyk protect",
+    "prepare": "yarn run snyk-protect"
   },
   "license": "AGPL-3.0",
   "dependencies": {
@@ -24,7 +26,8 @@
     "moment": "^2.24.0",
     "mqtt": "^2.18.8",
     "neodoc": "^2.0.2",
-    "protobufjs": "^6.9.0"
+    "protobufjs": "^6.9.0",
+    "snyk": "^1.316.1"
   },
   "devDependencies": {
     "chai": "^4.2.0",
@@ -37,5 +40,6 @@
     "lolex": "^2.7.5",
     "mocha": "^5.2.0",
     "prettier": "^1.15.3"
-  }
+  },
+  "snyk": true
 }
